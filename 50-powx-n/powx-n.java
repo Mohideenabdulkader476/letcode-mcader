@@ -1,21 +1,22 @@
 class Solution {
     public double myPow(double x, int n) {
-        return binaryExp(x, (long) n);
-    }
+        long N = n; // Convert to long to handle Integer.MIN_VALUE
 
-    private double binaryExp(double x, long n) {
-        if (n == 0) {
-            return 1;
+        if (N < 0) {
+            x = 1 / x;
+            N = -N;
         }
-       
-        if (n < 0) {
-            return 1.0 / binaryExp(x, -n);
+
+        double result = 1.0;
+
+        while (N > 0) {
+            if (N % 2 == 1) {
+                result *= x;
+            }
+            x *= x;
+            N /= 2;
         }
-       
-        if (n % 2 == 1) {
-            return x * binaryExp(x * x, (n - 1) / 2);
-        } else {
-            return binaryExp(x * x, n / 2);
-        }
+
+        return result;
     }
 }
